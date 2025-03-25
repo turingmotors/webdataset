@@ -126,7 +126,8 @@ def download_file(remote, local, handlers=default_cmds, verbose=False):
 
 def download_and_open(remote, local, mode="rb", handlers=default_cmds, verbose=False):
 
-    # vad-e2eではtarが並列アクセスされない かつ lock処理がEFSに負荷を与えるためコメントアウトする
+    # lock処理がEFSに負荷を与えるため、排他ロック処理をコメントアウトする
+    # JADDでは1tarファイルにつき1シーンでアーカイブしている。また、vad-e2eでは同じシーンを複数回学習しない。そのため、tarファイルは並行アクセスされないので影響なし
     # with ULockFile(local + ".lock"):
     if not os.path.exists(local):
         if verbose:
